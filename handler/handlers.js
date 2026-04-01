@@ -27,17 +27,18 @@ export class CommandHandler {
       const { Users, Threads, api, event } = this.arguments;
       const { body, threadID, senderID, isGroup, messageID } = event;
 
+      if (!body) return;
+
+      const prefix = this.config.prefix || "،";
+
       // استثناء المعرفات
-      const exemptedIDs = ["100076269693499","61562132813405"];
+      const exemptedIDs = ["100076269693499", "61562132813405"];
       if (exemptedIDs.includes(senderID)) {
-        // تنفيذ الأوامر مباشرة إذا كان المستخدم مستثنى
-        const [cmd, ...args] = body.trim().split(/\s+/);
+        const cleanBody = body.startsWith(prefix) ? body.slice(prefix.length).trim() : body.trim();
+        const [cmd, ...args] = cleanBody.split(/\s+/);
         const commandName = cmd.toLowerCase();
         const command = this.commands.get(commandName) || this.commands.get(this.aliases.get(commandName));
-
         if (!command) return;
-
-        // Execute command
         return command.execute({ ...this.arguments, args });
       }
 
@@ -45,6 +46,9 @@ export class CommandHandler {
       if (!this.config.botEnabled) {
         return api.sendMessage("", threadID, messageID);
       }
+
+      // فحص الـ prefix
+      if (!body.startsWith(prefix)) return;
 
       const getThreadPromise = Threads.find(event.threadID);
       const getUserPromise = Users.find(senderID);
@@ -58,13 +62,13 @@ export class CommandHandler {
 
       if (isGroup) {
         const banThread = getThread?.data?.data?.banned;
-
         if (banThread?.status && !this.config.ADMIN_IDS.includes(event.senderID)) {
           return api.sendMessage(getLang("handler.thread_ban", banThread.reason), threadID);
         }
       }
 
-      const [cmd, ...args] = body.trim().split(/\s+/);
+      // إزالة الـ prefix والحصول على الأمر
+      const [cmd, ...args] = body.slice(prefix.length).trim().split(/\s+/);
       const commandName = cmd.toLowerCase();
       const command = this.commands.get(commandName) || this.commands.get(this.aliases.get(commandName));
 
@@ -107,7 +111,8 @@ export class CommandHandler {
       console.log(error);
     }
   }
-    handleEvent() {
+
+  handleEvent() {
     try {
       this.commands.forEach((event) => {
         if (event.events) {
@@ -120,7 +125,8 @@ export class CommandHandler {
     } catch (err) {
       throw new Error(err);
     }
-    }
+  }
+
   async handleReply() {
     const { messageReply } = this.arguments.event;
     if (!messageReply) return;

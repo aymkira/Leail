@@ -12,7 +12,7 @@
   "author": "HUSSEIN",
   "license": "ISC",
   "dependencies": {
-    "@trunqkj3n/kaguya": "1.0.0",
+    "@dongdev/fca-unofficial": "^3.0.31",
     "axios": "^1.7.9",
     "blessed": "^0.1.81",
     "bluebird": "^3.7.2",

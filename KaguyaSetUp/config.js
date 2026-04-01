@@ -1,5 +1,5 @@
     export default {
-      "prefix": "،",
+      "prefix": "/",
       "language": "ar_MA",
       "BOT_NAME": "ⓀⒶⒼⓊⓎⒶ",
       "ADMIN_IDS": [

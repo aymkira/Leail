@@ -57,8 +57,8 @@ class Kaguya extends EventEmitter {
     try {
       const redToGreen = gradient("white", "green");
       console.log(redToGreen("■".repeat(50), { interpolation: "hsv" }));
-      console.log(`${gradient(["#4feb34", "#4feb34"])(\"[ AUTHOR ]: \")} ${gradient("cyan", "pink")("Arjhil Dacayanan")}`);
-      console.log(`${gradient(["#4feb34", "#4feb34"])(\"[ Facebook ]: \")} ${gradient("cyan", "pink")("https://www.facebook.com/arjhil.dacayanan.73?mibextid=ZbWKwL")}`);
+      console.log(`${gradient(["#4feb34", "#4feb34"])("[ AUTHOR ]: ")} ${gradient("cyan", "pink")("Arjhil Dacayanan")}`);
+      console.log(`${gradient(["#4feb34", "#4feb34"])("[ Facebook ]: ")} ${gradient("cyan", "pink")("https://www.facebook.com/arjhil.dacayanan.73?mibextid=ZbWKwL")}`);
 
       const { data } = await axios.get("https://raw.githubusercontent.com/Tshukie/Kaguya-Pr0ject/master/package.json");
       if (semver.lt(this.package.version, (data.version ??= this.package.version))) {

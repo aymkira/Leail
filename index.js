@@ -1,5 +1,5 @@
 import fs from "fs";
-import login from "@trunqkj3n/kaguya";
+import login from "@dongdev/fca-unofficial";
 import { listen } from "./listen/listen.js";
 import './utils/kaguya.js';
 import { commandMiddleware, eventMiddleware } from "./middleware/index.js";

@@ -12,27 +12,13 @@ import EventEmitter from "events";
 import axios from "axios";
 import semver from "semver";
 
-// replacr 
-  login({email: "", password: ""}, (err, api) => {
-  if(err) return console.error(err);
-
-  // login
-  fs.writeFileSync('KaguyaState.json', JSON.stringify(api.getAppState())); // create appstate
-});
-
 class Kaguya extends EventEmitter {
   constructor() {
     super();
     this.on("system:error", (err) => {
       log([
-        {
-          message: "[ ERROR ]: ",
-          color: "red",
-        },
-        {
-          message: `Error! An error occurred. Please try again later: ${err}`,
-          color: "white",
-        },
+        { message: "[ ERROR ]: ", color: "red" },
+        { message: `Error! An error occurred. Please try again later: ${err}`, color: "white" },
       ]);
       process.exit(1);
     });
@@ -58,7 +44,6 @@ class Kaguya extends EventEmitter {
   checkCredentials() {
     try {
       const credentialsArray = JSON.parse(this.credentials);
-
       if (!Array.isArray(credentialsArray) || credentialsArray.length === 0) {
         this.emit("system:error", "Please go to KaguyaSetUp/KaguyaState.json folder and fill in appstate!");
         process.exit(0);
@@ -72,20 +57,14 @@ class Kaguya extends EventEmitter {
     try {
       const redToGreen = gradient("white", "green");
       console.log(redToGreen("■".repeat(50), { interpolation: "hsv" }));
-      console.log(`${gradient(["#4feb34", "#4feb34"])("[ AUTHOR ]: ")} ${gradient("cyan", "pink")("Arjhil Dacayanan")}`);
-      console.log(`${gradient(["#4feb34", "#4feb34"])("[ Facebook ]: ")} ${gradient("cyan", "pink")("https://www.facebook.com/arjhil.dacayanan.73?mibextid=ZbWKwL")}`);
+      console.log(`${gradient(["#4feb34", "#4feb34"])(\"[ AUTHOR ]: \")} ${gradient("cyan", "pink")("Arjhil Dacayanan")}`);
+      console.log(`${gradient(["#4feb34", "#4feb34"])(\"[ Facebook ]: \")} ${gradient("cyan", "pink")("https://www.facebook.com/arjhil.dacayanan.73?mibextid=ZbWKwL")}`);
 
       const { data } = await axios.get("https://raw.githubusercontent.com/Tshukie/Kaguya-Pr0ject/master/package.json");
       if (semver.lt(this.package.version, (data.version ??= this.package.version))) {
         log([
-          {
-            message: "[ SYSTEM ]: ",
-            color: "yellow",
-          },
-          {
-            message: `New Update contact the owner: https://www.facebook.com/arjhil.dacayanan.73?mibextid=ZbWKwL`,
-            color: "white",
-          },
+          { message: "[ SYSTEM ]: ", color: "yellow" },
+          { message: `New Update contact the owner: https://www.facebook.com/arjhil.dacayanan.73?mibextid=ZbWKwL`, color: "white" },
         ]);
       }
 
@@ -94,7 +73,6 @@ class Kaguya extends EventEmitter {
         process.stdout.write("\b".repeat(currentFrame));
         const frame = redToGreen("■".repeat(currentFrame), { interpolation: "hsv" });
         process.stdout.write(frame);
-
         currentFrame++;
         if (currentFrame > 50) {
           clearInterval(interval);
@@ -146,35 +124,21 @@ class Kaguya extends EventEmitter {
               if (!listenMqtt.isListening) {
                 listenMqtt.isListening = true;
                 const mqtt = await api.listenMqtt(async (err, event) => {
-                  if (err) {
-                    this.on("error", err);
-                  }
+                  if (err) { this.on("error", err); }
                   await listen({ api, event, client: global.client });
                 });
                 await sleep(this.currentConfig.mqtt_refresh);
                 notifer("[ MQTT ]", "Mqtt refresh in progress!");
                 log([
-                  {
-                    message: "[ MQTT ]: ",
-                    color: "yellow",
-                  },
-                  {
-                    message: `Refresh mqtt in progress!`,
-                    color: "white",
-                  },
+                  { message: "[ MQTT ]: ", color: "yellow" },
+                  { message: `Refresh mqtt in progress!`, color: "white" },
                 ]);
                 await mqtt.stopListening();
                 await sleep(5000);
                 notifer("[ MQTT ]", "Refresh successful!");
                 log([
-                  {
-                    message: "[ MQTT ]: ",
-                    color: "green",
-                  },
-                  {
-                    message: `Refresh successful!`,
-                    color: "white",
-                  },
+                  { message: "[ MQTT ]: ", color: "green" },
+                  { message: `Refresh successful!`, color: "white" },
                 ]);
                 listenMqtt.isListening = false;
               }

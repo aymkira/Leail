@@ -12,7 +12,7 @@
         "forceLogin": true,
         "listenEvents": true,
         "listenTyping": false,
-        "logLevel": "silent",
+        
         "updatePresence": true,
         "selfListen": true
     },
